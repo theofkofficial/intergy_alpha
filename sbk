@@ -1,0 +1,30 @@
+import datetime
+import pandas as pd
+from modules.electricity import uretim
+
+
+sistemsaati = datetime.datetime.now().hour
+
+if sistemsaati >= 16:
+    tarih = datetime.date.today()
+    rdate = tarih + datetime.timedelta(days=1)
+else:
+    rdate = datetime.date.today()
+rdate.strftime("%Y-%m-%d")
+
+genelkgup = uretim.sigmakgup(baslangic_tarihi=str(rdate), bitis_tarihi=str(rdate))
+
+genelkgup.to_excel("KGÜP Santraller 2 " + str(rdate) + ".xlsx")
+print("KGÜP Santraller " + str(rdate) + ".xlsx Dosyası oluşturuldu.")
+
+"""
+df = pd.read_excel("KGUP Santraller Database.xlsx")
+df.drop(df.columns[[0]], axis=1, inplace=True)
+frame = [df, genelkgup]
+df = pd.concat(frame)
+df.to_excel("KGUP Santraller Database.xlsx")
+print("KGUP Santraller Database.xlsx dosyası güncellendi.")
+toplam_kgup = uretim.kgup(baslangic_tarihi=str(rdate), bitis_tarihi=str(rdate))
+toplam_kgup.to_excel("KGÜP Toplam " + str(rdate) + ".xlsx")
+print("KGÜP Toplam " + str(rdate) + ".xlsx Dosyası oluşturuldu.")
+"""
